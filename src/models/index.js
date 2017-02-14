@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import Promise from 'bluebird'
 import MongooseDao from 'mongoosedao'
-import fs from 'fs'
+import { loadFileToModel } from '../common/loaddir'
 
 import config from '../config'
 import logger from '../common/logger'
@@ -23,14 +23,4 @@ function getMongooseDao (definition, name, perfix = config.mongo_perfix) {
   return new MongooseDao(model)
 }
 
-const modelFiles = fs.readdirSync(__dirname)
-const model = {}
-
-modelFiles.map( file => {
-  let fileName = file.replace(/\.js$/i, '')
-  if (fileName !== 'index') {
-    model[`${fileName}Dao`] = getMongooseDao(require(`./${file}`).default, fileName)
-  }
-})
-
-module.exports = model
+module.exports = loadFileToModel(__dirname, getMongooseDao)

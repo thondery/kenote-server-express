@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Kenode Server Express",
   "main": "index.js",
+  "engines": {
+    "node": ">=6.9.0",
+    "npm": ">=3.10.0"
+  },
   "scripts": {
     "dev": "better-npm-run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -52,6 +56,7 @@
     "log4js": "^1.1.0",
     "method-override": "^2.3.7",
     "mongoose": "^4.8.2",
-    "mongoosedao": "^1.0.13"
+    "mongoosedao": "^1.0.13",
+    "swig": "^1.4.2"
   }
 }
