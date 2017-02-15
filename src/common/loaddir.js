@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-function loadFileToExport (dir, suffix) {
+export function loadFileToExport (dir, suffix) {
   let obj = {}
   let files = fs.readdirSync(dir)
   files.map( file => {
@@ -13,8 +13,10 @@ function loadFileToExport (dir, suffix) {
   return obj
 }
 
-function loadFileToModel (dir, func) {
+export function loadFileToModel (dir, func) {
   let model = {}
+  model['uniqueError'] = e => e.code === 11000
+  model['optionError'] = e => e.code >= 1000
   let files = fs.readdirSync(dir)
   files.map( file => {
     let fileName = file.replace(/\.js$/i, '')
@@ -23,9 +25,4 @@ function loadFileToModel (dir, func) {
     }
   })
   return model
-}
-
-export {
-  loadFileToExport,
-  loadFileToModel
 }
