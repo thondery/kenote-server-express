@@ -31,3 +31,14 @@ export const Error = code => {
   err.message = info.messgae
   return err
 }
+
+export const res_api = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization')
+  res.api = (data, code = CODE.ERROR_STATUS_NULL) => {
+    let status = errInfo(code) || null
+    return res.json({ data, status })
+  }
+  return next()
+}
