@@ -48,6 +48,20 @@ export const findOne = info => {
   })
 }
 
+// 删除所有数据
+export const removeAll = () => {
+  return new Promise( (resolve, reject) => {
+    userDao.deleteAll( err => {
+      if (err) {
+        reject(err)
+      }
+      else {
+        resolve(null)
+      }
+    })
+  })
+}
+
 // 注册用户
 export const register = info => {
   return create(getData(info))
