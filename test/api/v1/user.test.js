@@ -1,7 +1,8 @@
 import 'babel-polyfill'
-import app from '../../../src/app'
 import supertest from 'supertest'
 import should from 'should'
+import uuid from 'node-uuid'
+import app from '../../../src/app'
 import * as CODE from '../../../src/error'
 import { userProxy } from '../../../src/proxys'
 
@@ -11,6 +12,7 @@ describe('test/api/v1/user.test.js', () => {
 
   let test_username = 'test@163.com'
   let test_password = '12345678'
+  let test_accesstoken = null
   let init_user = {
     username: 'admin@163.com',
     password: '12345678'
@@ -22,6 +24,7 @@ describe('test/api/v1/user.test.js', () => {
         return userProxy.register(init_user)
       })
       .then( doc => {
+        test_accesstoken = doc.accesskey
         done()
       })
   })
@@ -175,6 +178,54 @@ describe('test/api/v1/user.test.js', () => {
         .send({
           username: test_username,
           password: test_password
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
+
+  describe('POST: /api/v1/accesstoken', () => {
+    it('should fail with no accesstoken', done => {
+      request
+        .post('/api/v1/accesstoken')
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_ACCESSTOKEN_NULL)
+          done()
+        })
+    })
+    it('should fail with accesstoken format', done => {
+      request
+        .post('/api/v1/accesstoken')
+        .send({
+          accesstoken: 'yyewe-eeeei-333399-eeoeo'
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_ACCESSTOKEN_NULL)
+          done()
+        })
+    })
+    it('should fail with accesstoken', done => {
+      request
+        .post('/api/v1/accesstoken')
+        .send({
+          accesstoken: uuid.v4()
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_ACCESSTOKEN_NULL)
+          done()
+        })
+    })
+    it('should pass with accesstoken', done => {
+      request
+        .post('/api/v1/accesstoken')
+        .send({
+          accesstoken: test_accesstoken
         })
         .end( (err, res) => {
           endApi(err, res)

@@ -56,3 +56,14 @@ export const login = (req, res, next) => {
   }
   return next(data)
 }
+
+export const accessToken = (req, res, next) => {
+  let { accesstoken } = req.body
+  let data = {
+    accesstoken
+  }
+  if (!validator.isUUID(accesstoken, 4)) {
+    return res.api(null, CODE.ERROR_ACCESSTOKEN_NULL)
+  }
+  return next(data)
+}

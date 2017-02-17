@@ -7,5 +7,6 @@ const router = express.Router()
 
 router.post( '/register',        userPolice.register,            userApi.register           )
 router.post( '/login',           userPolice.login,               userApi.login              )
+router.post( '/accesstoken',     userPolice.accessToken,         userApi.accessToken        )
 
 export default router

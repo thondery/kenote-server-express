@@ -92,6 +92,18 @@ export const login = info => {
     .then( doc => _.pick(doc, ['_id', 'username', 'email', 'accesskey', 'create_at', 'update_at']))
 }
 
+// 验证 accessToken
+export const accessToken = accesskey => {
+  return findOne({ accesskey: accesskey })
+    .then( doc => {
+      let e = new Error(Tools.errInfo(CODE.ERROR_ACCESSTOKEN_NULL).message)
+      e.code = CODE.ERROR_ACCESSTOKEN_NULL
+      if (!doc) throw e
+      return doc
+    })
+    .then( doc => _.pick(doc, ['_id', 'username', 'email', 'accesskey', 'create_at', 'update_at']))
+}
+
 // 加密密码
 export const encryptPwd = password => {
   let _salt = salt()

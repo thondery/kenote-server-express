@@ -1,6 +1,6 @@
 {
   "name": "kenote-server-express",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Kenode Server Express",
   "main": "index.js",
   "engines": {
@@ -8,6 +8,11 @@
     "npm": ">=3.10.0"
   },
   "scripts": {
+    "start": "better-npm-run start",
+    "stop": "pm2 stop kenote-server-express",
+    "restart": "npm run stop && npm run start",
+    "remove": "npm run stop && pm2 delete kenote-server-express",
+    "apidoc": "apidoc -i src/ -o apidoc/ -c apidoc.json",
     "dev": "better-npm-run dev",
     "test": "better-npm-run test",
     "test-ci": "better-npm-run test-ci",
@@ -18,6 +23,12 @@
       "command": "node .",
       "env": {
         "NODE_ENV": "development"
+      }
+    },
+    "start": {
+      "command": "pm2 start . --name \"kenote-server-express\" && pm2 save",
+      "env": {
+        "NODE_ENV": "production"
       }
     },
     "test": {

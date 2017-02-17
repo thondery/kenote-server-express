@@ -21,6 +21,8 @@ export const ERROR_LOGINNAME_REQUIRED    = 1131
 export const ERROR_LOGINPASS_REQUIRED    = 1132
 export const ERROR_LOGINVALID_FAIL       = 1133
 
+export const ERROR_ACCESSTOKEN_NULL      = 1134
+
 export default [
   { code: ERROR_STATUS_NULL,           message: constant.ERROR_STATUS_NULL },
 
@@ -42,4 +44,6 @@ export default [
   { code: ERROR_LOGINNAME_REQUIRED,    message: constant.ERROR_LOGINNAME_REQUIRED },
   { code: ERROR_LOGINPASS_REQUIRED,    message: constant.ERROR_LOGINPASS_REQUIRED },
   { code: ERROR_LOGINVALID_FAIL,       message: constant.ERROR_LOGINVALID_FAIL },
+
+  { code: ERROR_ACCESSTOKEN_NULL,      message: constant.ERROR_ACCESSTOKEN_NULL },
 ]

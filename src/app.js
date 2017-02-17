@@ -15,6 +15,7 @@ import config from './config'
 import logger from './common/logger'
 import * as Tools from './common/tools'
 
+const __TEST__ = process.env.NODE_ENV === 'test'
 
 const app = express()
 const staticDir = path.resolve(process.cwd(), 'public')
@@ -25,10 +26,12 @@ if (!fs.existsSync(staticDir)) {
   fs.mkdirSync(staticDir)
 }
 
-app.use(log4js.connectLogger(logger, {
-  level: config.logger.level,
-  format: config.logger.format
-}))
+if (!__TEST__) {
+  app.use(log4js.connectLogger(logger, {
+    level: config.logger.level,
+    format: config.logger.format
+  }))
+}
 
 app.set('views', viewsDir)
 app.set('view engine', 'html')
@@ -82,7 +85,7 @@ else {
 const server = http.createServer(app)
 const { host, port } = config
 server.listen(port, host, () => {
-  logger.info(`Your App Run on http://${host}:${port}`)
+  !__TEST__ && logger.info(`Your App Run on http://${host}:${port}`)
 })
 
 export default app

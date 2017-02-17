@@ -21,3 +21,5 @@ export const ERROR_PASSWORD_FORMAT       = `密码格式不正确`
 export const ERROR_LOGINNAME_REQUIRED    = `用户名/邮箱不能为空`
 export const ERROR_LOGINPASS_REQUIRED    = `登录密码不能为空`
 export const ERROR_LOGINVALID_FAIL       = `用户名/密码错误！`
+
+export const ERROR_ACCESSTOKEN_NULL      = `尚未登录或登录已失效`
