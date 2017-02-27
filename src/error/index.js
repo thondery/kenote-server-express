@@ -23,6 +23,11 @@ export const ERROR_LOGINVALID_FAIL       = 1133
 
 export const ERROR_ACCESSTOKEN_NULL      = 1134
 
+export const ERROR_NOTEBOOK_REQUIRED     = 1201
+export const ERROR_NOTEBOOK_MAXSIZE      = 1202
+export const ERROR_NOTEBOOK_FORMAT       = 1203
+export const ERROR_NOTEBOOK_UNIQUE       = 1204
+
 export default [
   { code: ERROR_STATUS_NULL,           message: constant.ERROR_STATUS_NULL },
 
@@ -46,4 +51,9 @@ export default [
   { code: ERROR_LOGINVALID_FAIL,       message: constant.ERROR_LOGINVALID_FAIL },
 
   { code: ERROR_ACCESSTOKEN_NULL,      message: constant.ERROR_ACCESSTOKEN_NULL },
+
+  { code: ERROR_NOTEBOOK_REQUIRED,     message: constant.ERROR_NOTEBOOK_REQUIRED },
+  { code: ERROR_NOTEBOOK_MAXSIZE,      message: constant.ERROR_NOTEBOOK_MAXSIZE },
+  { code: ERROR_NOTEBOOK_FORMAT,       message: constant.ERROR_NOTEBOOK_FORMAT },
+  { code: ERROR_NOTEBOOK_UNIQUE,       message: constant.ERROR_NOTEBOOK_UNIQUE },
 ]

@@ -1,7 +1,5 @@
-import pkg from '../../../package.json'
 import { userProxy } from '../../proxys'
 import { optionError } from '../../models'
-import * as Tools from '../../common/tools'
 
 /**
  * @api {post} /register 用户注册

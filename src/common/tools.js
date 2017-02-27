@@ -42,3 +42,8 @@ export const res_api = (req, res, next) => {
   }
   return next()
 }
+
+export const getStringByte = (str) => {
+  var char = str.replace(/[^\x00-\xff]/g, '**')
+  return char.length
+}

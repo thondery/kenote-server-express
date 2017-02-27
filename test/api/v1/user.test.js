@@ -1,11 +1,12 @@
 import 'babel-polyfill'
 import supertest from 'supertest'
-import should from 'should'
+import chai from 'chai'
 import uuid from 'node-uuid'
 import app from '../../../src/app'
 import * as CODE from '../../../src/error'
 import { userProxy } from '../../../src/proxys'
 
+const should = chai.should()
 const request = supertest(app)
 
 describe('test/api/v1/user.test.js', () => {
@@ -237,12 +238,13 @@ describe('test/api/v1/user.test.js', () => {
 })
 
 function endApi (err, res) {
-  should.not.exists(err)
+  should.not.exist(err)
+  should.exist(res)
   res.status.should.equal(200)
-  res.body.status.should.be.Object()
-  res.body.status.message.should.be.String()
-  res.body.status.code.should.be.Number()
+  res.body.status.should.be.an('object')
+  res.body.status.message.should.be.an('string')
+  res.body.status.code.should.be.an('number')
   if (res.body.data) {
-    res.body.data.should.be.Object()
+    res.body.data.should.be.an('object')
   }
 }

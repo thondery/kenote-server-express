@@ -23,3 +23,8 @@ export const ERROR_LOGINPASS_REQUIRED    = `登录密码不能为空`
 export const ERROR_LOGINVALID_FAIL       = `用户名/密码错误！`
 
 export const ERROR_ACCESSTOKEN_NULL      = `尚未登录或登录已失效`
+
+export const ERROR_NOTEBOOK_REQUIRED     = `笔记本名不能为空`
+export const ERROR_NOTEBOOK_MAXSIZE      = `笔记本名超出字节长度`
+export const ERROR_NOTEBOOK_FORMAT       = `名称限制在中文、英文字母、数字、下划线和减号之间`
+export const ERROR_NOTEBOOK_UNIQUE       = `笔记本名已存在`
