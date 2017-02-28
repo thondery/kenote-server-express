@@ -4,6 +4,8 @@ import * as CODE from '../../error'
 import { userProxy } from '../../proxys'
 import * as Tools from '../../common/tools'
 import { optionError } from '../../models'
+import * as Auth from '../../middlewares/auth'
+import _ from 'lodash'
 
 const validData = {
   ['name']: {
@@ -14,27 +16,26 @@ const validData = {
 
 export const create = async (req, res, next) => {
   let { name, accesstoken } = req.body
-  try {
-    let user = await userProxy.accessToken(accesstoken)
-    if (!name) {
-      return res.api(null, CODE.ERROR_NOTEBOOK_REQUIRED)
-    }
-    if (Tools.getStringByte(name) > validData['name'].max) {
-      return res.api(null, CODE.ERROR_NOTEBOOK_MAXSIZE)
-    }
-    if (!validData['name'].pattern(name)) {
-      return res.api(null, CODE.ERROR_NOTEBOOK_FORMAT)
-    }
-    return next({
-      name,
-      user: user._id
-    })
-  } catch (err) {
-    if (optionError(err)) {
-      return res.api(null, err.code)
-    }
-    else {
-      return next(err)
-    }
+  let auth = await req.auth(accesstoken)
+  if (!name) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_REQUIRED)
   }
+  if (Tools.getStringByte(name) > validData['name'].max) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_MAXSIZE)
+  }
+  if (!validData['name'].pattern(name)) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_FORMAT)
+  }
+  return next({
+    name,
+    user: auth._id
+  })
+}
+
+export const list = async (req, res, next) => {
+  let { accesstoken } = req.query
+  let auth = await req.auth(accesstoken)
+  return next({
+    user: auth._id
+  })
 }

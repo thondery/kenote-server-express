@@ -2,7 +2,6 @@
   "name": "kenote-server-express",
   "version": "0.1.0",
   "description": "Kenode Server Express",
-  "sampleUrl": "http://localhost:4000/api/v1",
   "header": {
     "title": "API Doc",
     "filename": "header.md"

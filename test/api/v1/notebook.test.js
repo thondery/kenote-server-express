@@ -96,9 +96,24 @@ describe('test/api/v1/notebook.test.js', () => {
     })
   })
 
+  describe('GET: /api/v1/notebook/list', () => {
+    it('should pass', done => {
+      request
+        .get('/api/v1/notebook/list')
+        .query({
+          accesstoken: test_accesstoken
+        })
+        .end( (err, res) => {
+          endApi(err, res, 'array')
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
+
 })
 
-function endApi (err, res) {
+function endApi (err, res, type = 'object') {
   should.not.exist(err)
   should.exist(res)
   res.status.should.equal(200)
@@ -106,6 +121,6 @@ function endApi (err, res) {
   res.body.status.message.should.be.an('string')
   res.body.status.code.should.be.an('number')
   if (res.body.data) {
-    res.body.data.should.be.an('object')
+    res.body.data.should.be.an(type)
   }
 }

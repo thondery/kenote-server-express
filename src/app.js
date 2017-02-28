@@ -14,6 +14,7 @@ import fs from 'fs'
 import config from './config'
 import logger from './common/logger'
 import * as Tools from './common/tools'
+import * as Auth from './middlewares/auth'
 
 const __TEST__ = process.env.NODE_ENV === 'test'
 
@@ -44,6 +45,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }))
 app.use(methodOverride())
 
 app.use(Tools.res_api)
+app.use(Auth.getAuthByToken)
 
 app.use(compress())
 

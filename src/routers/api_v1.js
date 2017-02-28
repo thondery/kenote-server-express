@@ -10,5 +10,6 @@ router.post( '/login',           userPolice.login,               userApi.login  
 router.post( '/accesstoken',     userPolice.accessToken,         userApi.accessToken        )
 
 router.post( '/notebook/create', notebookPolice.create,          notebookApi.create         )
+router.get ( '/notebook/list',   notebookPolice.list,            notebookApi.list           )
 
 export default router
