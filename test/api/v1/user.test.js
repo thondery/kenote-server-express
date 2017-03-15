@@ -235,6 +235,39 @@ describe('test/api/v1/user.test.js', () => {
         })
     })
   })
+
+  describe('POST: /api/v1/syncdata', () => {
+    it('should pass', done => {
+      request
+        .post('/api/v1/syncdata')
+        .send({
+          accesstoken: test_accesstoken,
+          lastUpdateCount: 0, 
+          lastSyncTime: 0
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
+
+  describe('POST: /api/v1/syncdata/send', () => {
+    it('should pass', done => {
+      request
+        .post('/api/v1/syncdata/send')
+        .send({
+          accesstoken: test_accesstoken,
+          payload: {}
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
 })
 
 function endApi (err, res) {

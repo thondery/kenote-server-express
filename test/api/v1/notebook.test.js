@@ -15,6 +15,7 @@ describe('test/api/v1/notebook.test.js', () => {
   let test_password = '12345678'
   let test_accesstoken = null
   let test_notebook = '我的第一个笔记本'
+  let test_notebook_id = null
 
   before( done => {
     userProxy.removeAll()
@@ -31,7 +32,10 @@ describe('test/api/v1/notebook.test.js', () => {
           name: test_notebook
         })
       })
-      .then( () => done() )
+      .then( doc => {
+        test_notebook_id = doc._id
+        return done()
+      })
   })
 
   after( done => {
@@ -100,6 +104,37 @@ describe('test/api/v1/notebook.test.js', () => {
     it('should pass', done => {
       request
         .get('/api/v1/notebook/list')
+        .query({
+          accesstoken: test_accesstoken
+        })
+        .end( (err, res) => {
+          endApi(err, res, 'array')
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
+
+  describe('POST: /api/v1/notebook/:notebook', () => {
+    it('should pass', done => {
+      request
+        .post(`/api/v1/notebook/${test_notebook_id}`)
+        .send({
+          accesstoken: test_accesstoken,
+          name: test_notebook
+        })
+        .end( (err, res) => {
+          endApi(err, res)
+          res.body.status.code.should.equal(CODE.ERROR_STATUS_NULL)
+          done()
+        })
+    })
+  })
+
+  describe('GET: /api/v1/notebook/remove/:notebook', () => {
+    it('should pass', done => {
+      request
+        .get(`/api/v1/notebook/remove/${test_notebook_id}`)
         .query({
           accesstoken: test_accesstoken
         })
