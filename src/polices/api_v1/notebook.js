@@ -4,7 +4,6 @@ import * as CODE from '../../error'
 import { userProxy } from '../../proxys'
 import * as Tools from '../../common/tools'
 import { optionError } from '../../models'
-import * as Auth from '../../middlewares/auth'
 import _ from 'lodash'
 
 const validData = {
@@ -36,6 +35,42 @@ export const list = async (req, res, next) => {
   let { accesstoken } = req.query
   let auth = await req.auth(accesstoken)
   return next({
+    user: auth._id
+  })
+}
+
+export const edit = async (req, res, next) => {
+  let { name, accesstoken } = req.body
+  let { notebook } = req.params
+  let auth = await req.auth(accesstoken)
+  if (!notebook || notebook.length !== 24) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_MARKUP)
+  }
+  if (!name) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_REQUIRED)
+  }
+  if (Tools.getStringByte(name) > validData['name'].max) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_MAXSIZE)
+  }
+  if (!validData['name'].pattern(name)) {
+    return res.api(null, CODE.ERROR_NOTEBOOK_FORMAT)
+  }
+  return next({
+    notebook, 
+    name,
+    user: auth._id
+  })
+}
+
+export const remove = async (req, res, next) => {
+  let { accesstoken } = req.query
+  let { notebook } = req.params
+  let auth = await req.auth(accesstoken)
+  if (!_.isArray(notebook)) {
+    notebook = [notebook]
+  }
+  return next({
+    notebook,
     user: auth._id
   })
 }

@@ -39,9 +39,31 @@ export const create = (data, req, res, next) => {
  * @apiSuccess {Date} profiles.create_at  创建时间.
  */
 export const list = (data, req, res, next) => {
-  notebookProxy.noteBookList(data, null, { _id: 1, name: 1, create_at: 1 })
+  notebookProxy.noteBookList(data, null, { _id: 1, name: 1, create_at: 1, update_at: 1 }, { create_at: -1 })
     .then( doc => {
       return res.api(doc)
+    })
+    .catch( optionError, err => {
+      return res.api(null, err.code)
+    })
+    .catch( err => next(err) )
+}
+
+export const edit = (data, req, res, next) => {
+  notebookProxy.editNoteBook(data.notebook, { name: data.name }, data.user)
+    .then( doc => {
+      return res.api(doc)
+    })
+    .catch( optionError, err => {
+      return res.api(null, err.code)
+    })
+    .catch( err => next(err) )
+}
+
+export const remove = (data, req, res, next) => {
+  notebookProxy.deleteByIds(data.user, data.notebook)
+    .then( doc => {
+      return res.api(data.notebook)
     })
     .catch( optionError, err => {
       return res.api(null, err.code)

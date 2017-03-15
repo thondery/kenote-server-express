@@ -28,3 +28,5 @@ export const ERROR_NOTEBOOK_REQUIRED     = `笔记本名不能为空`
 export const ERROR_NOTEBOOK_MAXSIZE      = `笔记本名超出字节长度`
 export const ERROR_NOTEBOOK_FORMAT       = `名称限制在中文、英文字母、数字、下划线和减号之间`
 export const ERROR_NOTEBOOK_UNIQUE       = `笔记本名已存在`
+export const ERROR_NOTEBOOK_MARKUP       = `缺少笔记本标记`
+export const ERROR_NOTEBOOK_USER         = `不能修改其他用户的笔记本`

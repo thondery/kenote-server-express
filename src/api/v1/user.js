@@ -1,4 +1,4 @@
-import { userProxy } from '../../proxys'
+import { userProxy, notebookProxy, syncdataProxy } from '../../proxys'
 import { optionError } from '../../models'
 
 /**
@@ -70,7 +70,42 @@ export const login = (data, req, res, next) => {
  * @apiSuccess {Date} update_at  最后更新时间.
  */
 export const accessToken = (data, req, res, next) => {
+  let info = {}
   userProxy.accessToken(data.accesstoken)
+    .then( auth => {
+      info = { ...info, auth }
+      return notebookProxy.noteBookList({ user: auth._id }, null, { _id: 1, name: 1, create_at: 1 })
+    })
+    .then( notebook => {
+      info = { ...info, notebook }
+      return res.api(info)
+    })
+    .catch( optionError, err => {
+      return res.api(null, err.code)
+    })
+    .catch( err => next(err) )
+}
+
+export const syncDataRequest = (data, req, res, next) => {
+  let { user, lastUpdateCount, lastSyncTime } = data
+  syncdataProxy.getSyncInfo(user)
+    .then( doc => {
+      let { updateCount, fullSyncBefore } = doc
+      console.log('lastUpdateCount ->', lastUpdateCount)
+      console.log('updateCount ->', updateCount)
+      if (lastUpdateCount == 0 && updateCount > 0) {
+        // 客户端从未更新过，进行<完全同步> => 客户端<发送改变>
+        return syncdataProxy.fullSyncData(user)
+      }
+      else if (updateCount == lastUpdateCount) {
+        // 无需从服务器更新，客户端直接<发送改变>
+        return syncdataProxy.noneSyncData()
+      }
+      else {
+        // 反之进行<增量同步> => 客户端<发送改变>
+        return syncdataProxy.increaseSyncData(user, lastUpdateCount)
+      }
+    })
     .then( doc => {
       return res.api(doc)
     })
@@ -78,4 +113,37 @@ export const accessToken = (data, req, res, next) => {
       return res.api(null, err.code)
     })
     .catch( err => next(err) )
+}
+
+export const syncDataSend = (data, req, res, next) => {
+  let { user, payload } = data
+  syncdataProxy.saveSyncData(payload, user)
+    .then( doc => {
+      return res.api(doc)
+    })
+    .catch( optionError, err => {
+      return res.api(null, err.code)
+    })
+    .catch( err => next(err) )
+
+}
+
+// 
+export const syncDataByGet = (data, req, res, next) => {
+  console.log(notebookProxy.batchUpdate([{_id: 'aaa', name: 'sss', create_at: '111', update_at: '222'}], '123'))
+  let info = {}
+  notebookProxy.noteBookList(data, null, { _id: 1, name: 1, create_at: 1, update_at: 1 })
+    .then( notebook => {
+      info = { ...info, notebook }
+      return res.api(info)
+    })
+    .catch( optionError, err => {
+      return res.api(null, err.code)
+    })
+    .catch( err => next(err) )
+}
+
+export const syncDataByPost = (data, req, res, next) => {
+  let info = {}
+  
 }

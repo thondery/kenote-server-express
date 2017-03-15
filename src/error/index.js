@@ -27,6 +27,8 @@ export const ERROR_NOTEBOOK_REQUIRED     = 1201
 export const ERROR_NOTEBOOK_MAXSIZE      = 1202
 export const ERROR_NOTEBOOK_FORMAT       = 1203
 export const ERROR_NOTEBOOK_UNIQUE       = 1204
+export const ERROR_NOTEBOOK_MARKUP       = 1205
+export const ERROR_NOTEBOOK_USER         = 1206
 
 export default [
   { code: ERROR_STATUS_NULL,           message: constant.ERROR_STATUS_NULL },
@@ -56,4 +58,6 @@ export default [
   { code: ERROR_NOTEBOOK_MAXSIZE,      message: constant.ERROR_NOTEBOOK_MAXSIZE },
   { code: ERROR_NOTEBOOK_FORMAT,       message: constant.ERROR_NOTEBOOK_FORMAT },
   { code: ERROR_NOTEBOOK_UNIQUE,       message: constant.ERROR_NOTEBOOK_UNIQUE },
+  { code: ERROR_NOTEBOOK_MARKUP,       message: constant.ERROR_NOTEBOOK_MARKUP },
+  { code: ERROR_NOTEBOOK_USER,         message: constant.ERROR_NOTEBOOK_USER   },
 ]

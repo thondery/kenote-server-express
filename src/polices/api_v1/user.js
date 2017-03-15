@@ -67,3 +67,42 @@ export const accessToken = (req, res, next) => {
   }
   return next(data)
 }
+
+export const syncDataRequest = async (req, res, next) => {
+  let { accesstoken, lastUpdateCount, lastSyncTime } = req.body
+  let auth = await req.auth(accesstoken)
+  return next({
+    user: auth._id,
+    lastUpdateCount: lastUpdateCount || 0, 
+    lastSyncTime: lastSyncTime || 0
+  })
+}
+
+export const syncDataSend = async (req, res, next) => {
+  let { accesstoken, payload } = req.body
+  let auth = await req.auth(accesstoken)
+  return next({
+    user: auth._id,
+    payload
+  })
+}
+
+export const syncDataByGet = async (req, res, next) => {
+  let { accesstoken } = req.query
+  let auth = await req.auth(accesstoken)
+  return next({
+    user: auth._id
+  })
+}
+
+export const syncDataByPost = async (req, res, next) => {
+  let { accesstoken, payload } = req.body
+  let auth = await req.auth(accesstoken)
+  console.log(payload)
+  return res.api(payload)
+  /*
+  return next({
+    user: auth._id,
+    payload
+  })*/
+}
